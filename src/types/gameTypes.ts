@@ -7,7 +7,7 @@ export enum Difficulty {
 
 export type FlagTypes = 'blank' | 'bombflagged' | 'bombquestion';
 
-export interface CellData {
+export interface Element {
   element: number;
   isRevealed: boolean;
   flagType: FlagTypes;
@@ -15,7 +15,7 @@ export interface CellData {
 
 export interface GameState {
   difficulty: Difficulty;
-  board: CellData[][];
+  board: Element[][];
   plantedBombs: number;
   remainingBombs: number;
   time: number;

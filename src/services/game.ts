@@ -1,4 +1,4 @@
-import { CellData, FlagTypes } from 'src/types/gameTypes';
+import { Element, FlagTypes } from 'src/types/gameTypes';
 
 const moveRow = [0, 0, 1, -1, 1, -1, -1, 1];
 const moveCol = [1, -1, 0, 0, 1, -1, 1, -1];
@@ -14,7 +14,7 @@ export const initBoard = (rows: number, cols: number) => {
 };
 
 export const plantBombs = (
-  board: CellData[][],
+  board: Element[][],
   mines: number,
   startRow: number,
   startCol: number
@@ -44,7 +44,7 @@ export const plantBombs = (
   }
 };
 
-export const dfs = (board: CellData[][], row: number, col: number) => {
+export const dfs = (board: Element[][], row: number, col: number) => {
   const rowLen = board.length;
   const colLen = board[0].length;
 

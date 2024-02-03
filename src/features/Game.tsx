@@ -10,7 +10,6 @@ import Menu from 'src/features/Menu';
 import { borderUp } from 'src/styles/gameStyle';
 
 export default function Game() {
-  const [time, setTime] = useState(0);
   const { difficulty, board } = useSelector((state: RootState) => state.game);
 
   return (

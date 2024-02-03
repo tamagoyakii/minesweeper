@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/app/store';
 import { checkFlag, sweepMine } from 'src/features/gameSlice';
 
-type CellProps = {
+type MineProps = {
   row: number;
   col: number;
 };
 
-export default function Mine({ row, col }: CellProps) {
+export default function Mine({ row, col }: MineProps) {
   const dispatch = useDispatch();
   const { element, isRevealed, flagType } = useSelector(
     (state: RootState) => state.game.board[row][col]
