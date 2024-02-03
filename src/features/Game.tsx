@@ -25,7 +25,7 @@ export default function Game() {
         gap: 1,
       }}
     >
-      <Menu />
+      <Menu currentDifficulty={difficulty} />
       <Box
         sx={{
           ...borderUp,

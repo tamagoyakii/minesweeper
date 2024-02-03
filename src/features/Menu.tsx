@@ -1,8 +1,40 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import { useState } from 'react';
+import { Difficulty, setDifficulty } from './gameSlice';
+import { useDispatch } from 'react-redux';
+import CheckIcon from '@mui/icons-material/Check';
 
-export default function Menu() {
+type MenuProps = {
+  currentDifficulty: Difficulty;
+};
+
+export default function Menu({ currentDifficulty }: MenuProps) {
   const [openDropdown, setOpenDropdown] = useState(false);
+  const dispatch = useDispatch();
+
+  const difficulties = [
+    Difficulty.Beginner,
+    Difficulty.Intermediate,
+    Difficulty.Expert,
+    Difficulty.Custom,
+  ];
+
+  const buttonStyle = {
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: 'black',
+    textDecoration: 'none',
+    display: 'block',
+    width: '100%',
+    height: '1.8rem',
+    fontSize: '1.1rem',
+    cursor: 'pointer',
+  };
+
+  const handleDifficultyChange = (difficulty: Difficulty) => {
+    dispatch(setDifficulty(difficulty));
+    setOpenDropdown(false);
+  };
 
   return (
     <Box sx={{ alignSelf: 'start' }}>
@@ -13,19 +45,34 @@ export default function Menu() {
         <Box
           sx={{
             position: 'absolute',
-            backgroundColor: 'grey.300',
+            backgroundColor: 'grey.400',
             border: 1,
             borderColor: 'black',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'start',
+            // gap: '3px',
           }}
         >
-          <button>New</button>
-          <button>Beginner</button>
-          <button>Intermediate</button>
-          <button>Expert</button>
-          <button>Custom</button>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ width: 23 }}></Box>
+            <button style={buttonStyle}>New</button>
+          </Box>
+          {difficulties.map((difficulty) => (
+            <Box sx={{ display: 'flex' }}>
+              <Box sx={{ width: 23 }}>
+                {currentDifficulty === difficulty && (
+                  <CheckIcon fontSize='small' />
+                )}
+              </Box>
+              <button
+                onClick={() => handleDifficultyChange(difficulty)}
+                style={buttonStyle}
+              >
+                {difficulty}
+              </button>
+            </Box>
+          ))}
         </Box>
       )}
     </Box>
