@@ -37,6 +37,7 @@ export const gameSlice = createSlice({
       );
       state.plantedBombs = difficultySettings[selectedDifficulty].mines;
       state.remainingBombs = difficultySettings[selectedDifficulty].mines;
+      state.isPlaying = false;
     },
     sweepMine(state, action: PayloadAction<{ row: number; col: number }>) {
       const { row, col } = action.payload;
