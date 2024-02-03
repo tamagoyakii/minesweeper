@@ -3,18 +3,24 @@ import Header from 'src/features/Header';
 import Board from 'src/features/Board';
 import { borderUp } from 'src/styles/gameStyle';
 import Menu from './Menu';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/app/store';
+import { useState } from 'react';
 
 export default function Game() {
+  const { difficulty, board, firstClick } = useSelector(
+    (state: RootState) => state.game
+  );
+  const [time, setTime] = useState(0);
+
   return (
-    <Container
-      maxWidth='sm'
+    <Box
       sx={{
-        backgroundColor: 'grey.300',
+        backgroundColor: 'grey.400',
         display: 'flex',
         flexDirection: 'column',
         border: 1,
         borderRadius: 3,
-        borderColor: 'grey.300',
         p: 2,
         gap: 1,
       }}
@@ -30,8 +36,8 @@ export default function Game() {
         }}
       >
         <Header />
-        <Board />
+        <Board board={board} />
       </Box>
-    </Container>
+    </Box>
   );
 }
