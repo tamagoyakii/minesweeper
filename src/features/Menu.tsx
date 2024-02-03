@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import CheckIcon from '@mui/icons-material/Check';
 import { Box, Divider, colors } from '@mui/material';
