@@ -1,11 +1,15 @@
-import { CellData } from 'src/types/gameTypes';
+import { CellData, FlagTypes } from 'src/types/gameTypes';
 
 const moveRow = [0, 0, 1, -1, 1, -1, -1, 1];
 const moveCol = [1, -1, 0, 0, 1, -1, 1, -1];
 
 export const initBoard = (rows: number, cols: number) => {
   return Array.from({ length: rows }, () =>
-    Array.from({ length: cols }, () => ({ element: 0, isRevealed: false }))
+    Array.from({ length: cols }, () => ({
+      element: 0,
+      isRevealed: false,
+      flagType: 'blank' as FlagTypes,
+    }))
   );
 };
 

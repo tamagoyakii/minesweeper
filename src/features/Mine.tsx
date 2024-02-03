@@ -1,7 +1,9 @@
+import { MouseEventHandler } from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from 'src/app/store';
-import { sweepMine } from 'src/features/gameSlice';
+import { checkFlag, sweepMine } from 'src/features/gameSlice';
 
 type CellProps = {
   row: number;
@@ -10,7 +12,7 @@ type CellProps = {
 
 export default function Mine({ row, col }: CellProps) {
   const dispatch = useDispatch();
-  const { element, isRevealed } = useSelector(
+  const { element, isRevealed, flagType } = useSelector(
     (state: RootState) => state.game.board[row][col]
   );
   const { exploded } = useSelector((state: RootState) => state.game);
@@ -22,9 +24,14 @@ export default function Mine({ row, col }: CellProps) {
     if (element === -2) return 'bombdeath';
   };
 
-  const handleCellClick = () => {
+  const handleLeftClick = () => {
     if (isRevealed || exploded) return;
     dispatch(sweepMine({ row, col }));
+  };
+
+  const handleRightClick: MouseEventHandler<HTMLImageElement> = (e) => {
+    e.preventDefault();
+    dispatch(checkFlag({ row, col }));
   };
 
   return isRevealed ? (
@@ -36,11 +43,12 @@ export default function Mine({ row, col }: CellProps) {
     />
   ) : (
     <img
-      src='https://freeminesweeper.org/images/blank.gif'
+      src={`https://freeminesweeper.org/images/${flagType}.gif`}
       width={imageSize}
       height={imageSize}
       alt=''
-      onClick={handleCellClick}
+      onClick={handleLeftClick}
+      onContextMenu={handleRightClick}
     />
   );
 }

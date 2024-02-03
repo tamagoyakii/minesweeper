@@ -16,8 +16,8 @@ const initialState: GameState = {
     difficultySettings[Difficulty.Intermediate].rows,
     difficultySettings[Difficulty.Intermediate].cols
   ),
-  plantedMines: difficultySettings[Difficulty.Intermediate].mines,
-  remainingMines: difficultySettings[Difficulty.Intermediate].mines,
+  plantedBombs: difficultySettings[Difficulty.Intermediate].mines,
+  remainingBombs: difficultySettings[Difficulty.Intermediate].mines,
   time: 0,
   isPlaying: false,
   exploded: false,
@@ -29,13 +29,14 @@ export const gameSlice = createSlice({
   reducers: {
     setDifficulty(state, action: PayloadAction<Difficulty>) {
       const selectedDifficulty = action.payload;
+
       state.difficulty = selectedDifficulty;
       state.board = initBoard(
         difficultySettings[selectedDifficulty].rows,
         difficultySettings[selectedDifficulty].cols
       );
-      state.plantedMines = difficultySettings[selectedDifficulty].mines;
-      state.remainingMines = difficultySettings[selectedDifficulty].mines;
+      state.plantedBombs = difficultySettings[selectedDifficulty].mines;
+      state.remainingBombs = difficultySettings[selectedDifficulty].mines;
     },
     sweepMine(state, action: PayloadAction<{ row: number; col: number }>) {
       const { row, col } = action.payload;
@@ -65,13 +66,27 @@ export const gameSlice = createSlice({
         difficultySettings[state.difficulty].rows,
         difficultySettings[state.difficulty].cols
       );
-      state.plantedMines = difficultySettings[state.difficulty].mines;
-      state.remainingMines = difficultySettings[state.difficulty].mines;
+      state.plantedBombs = difficultySettings[state.difficulty].mines;
+      state.remainingBombs = difficultySettings[state.difficulty].mines;
       state.isPlaying = false;
       state.exploded = false;
+    },
+    checkFlag(state, action: PayloadAction<{ row: number; col: number }>) {
+      const { row, col } = action.payload;
+
+      if (state.board[row][col].flagType === 'blank') {
+        state.board[row][col].flagType = 'bombflagged';
+        state.remainingBombs--;
+      } else if (state.board[row][col].flagType === 'bombflagged') {
+        state.board[row][col].flagType = 'bombquestion';
+        state.remainingBombs++;
+      } else {
+        state.board[row][col].flagType = 'blank';
+      }
     },
   },
 });
 
-export const { setDifficulty, sweepMine, resetGame } = gameSlice.actions;
+export const { setDifficulty, sweepMine, resetGame, checkFlag } =
+  gameSlice.actions;
 export default gameSlice.reducer;
