@@ -1,17 +1,11 @@
-import { useState } from 'react';
-
 import { Box } from '@mui/material';
-import { useSelector } from 'react-redux';
 
-import { RootState } from 'src/app/store';
+import Appbar from 'src/features/Appbar';
 import Board from 'src/features/Board';
 import Header from 'src/features/Header';
-import Menu from 'src/features/Menu';
 import { borderUp } from 'src/styles/gameStyle';
 
 export default function Game() {
-  const { difficulty, board } = useSelector((state: RootState) => state.game);
-
   return (
     <Box
       sx={{
@@ -24,7 +18,7 @@ export default function Game() {
         gap: 1,
       }}
     >
-      <Menu currentDifficulty={difficulty} />
+      <Appbar />
       <Box
         sx={{
           ...borderUp,

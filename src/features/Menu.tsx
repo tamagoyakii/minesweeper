@@ -1,19 +1,22 @@
-import { useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 import CheckIcon from '@mui/icons-material/Check';
-import { Box } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { Box, Divider, colors } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { setDifficulty } from 'src/features/gameSlice';
+import { RootState } from 'src/app/store';
+import { resetGame, setDifficulty } from 'src/features/gameSlice';
 import { Difficulty } from 'src/types/gameTypes';
 
 type MenuProps = {
-  currentDifficulty: Difficulty;
+  setOpenDropdown: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Menu({ currentDifficulty }: MenuProps) {
-  const [openDropdown, setOpenDropdown] = useState(false);
+export default function Menu({ setOpenDropdown }: MenuProps) {
   const dispatch = useDispatch();
+  const currentDifficulty = useSelector(
+    (state: RootState) => state.game.difficulty
+  );
 
   const difficulties = [
     Difficulty.Beginner,
@@ -22,63 +25,86 @@ export default function Menu({ currentDifficulty }: MenuProps) {
     Difficulty.Custom,
   ];
 
-  const buttonStyle = {
-    backgroundColor: 'transparent',
-    border: 'none',
-    color: 'black',
-    textDecoration: 'none',
-    display: 'block',
-    width: '100%',
-    height: '1.8rem',
-    fontSize: '1.1rem',
-    cursor: 'pointer',
-  };
-
   const handleDifficultyChange = (difficulty: Difficulty) => {
     dispatch(setDifficulty(difficulty));
     setOpenDropdown(false);
   };
 
+  const handleResetGame = () => {
+    dispatch(resetGame());
+    setOpenDropdown(false);
+  };
+
   return (
-    <Box sx={{ alignSelf: 'start' }}>
-      <Box onClick={() => setOpenDropdown(!openDropdown)} fontWeight={600}>
-        Menu
-      </Box>
-      {openDropdown && (
-        <Box
-          sx={{
-            position: 'absolute',
-            backgroundColor: 'grey.400',
-            border: 1,
-            borderColor: 'black',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'start',
-            // gap: '3px',
-          }}
-        >
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ width: 23 }}></Box>
-            <button style={buttonStyle}>New</button>
-          </Box>
-          {/* <hr /> */}
-          {difficulties.map((difficulty) => (
-            <Box sx={{ display: 'flex' }}>
-              <Box sx={{ width: 23 }}>
-                {currentDifficulty === difficulty && (
-                  <CheckIcon fontSize='small' />
-                )}
-              </Box>
-              <button
-                onClick={() => handleDifficultyChange(difficulty)}
-                style={buttonStyle}
-              >
-                {difficulty}
-              </button>
-            </Box>
-          ))}
-        </Box>
-      )}
+    <Box
+      sx={{
+        position: 'absolute',
+        backgroundColor: 'grey.400',
+        border: 1,
+        borderColor: 'black',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'start',
+        p: '5px',
+      }}
+    >
+      <MenuButton label='New' onClick={handleResetGame} />
+      <MenuDivider />
+      {difficulties.map((difficulty) => (
+        <MenuButton
+          label={difficulty}
+          isChecked={currentDifficulty === difficulty}
+          onClick={() => handleDifficultyChange(difficulty)}
+        />
+      ))}
+      <MenuDivider />
+      <MenuButton label='Exit' onClick={() => setOpenDropdown(false)} />
     </Box>
+  );
+}
+
+function MenuButton({
+  label,
+  isChecked,
+  onClick,
+}: {
+  label: string;
+  isChecked?: boolean;
+  onClick?: () => void;
+}) {
+  return (
+    <Box
+      onClick={onClick}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+        '&:hover': {
+          color: 'blue',
+        },
+      }}
+    >
+      <Box sx={{ width: 23 }}>
+        {isChecked && <CheckIcon fontSize='small' />}
+      </Box>
+      {label}
+    </Box>
+  );
+}
+
+function MenuDivider() {
+  return (
+    <>
+      <Divider
+        sx={{
+          width: '100%',
+          backgroundColor: colors.grey[500],
+          borderBottomWidth: 2,
+        }}
+      />
+      <Divider
+        sx={{ width: '100%', backgroundColor: 'white', borderBottomWidth: 2 }}
+      />
+    </>
   );
 }
