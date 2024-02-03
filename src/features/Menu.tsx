@@ -4,7 +4,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import { Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
-import { Difficulty, setDifficulty } from 'src/features/gameSlice';
+import { setDifficulty } from 'src/features/gameSlice';
+import { Difficulty } from 'src/types/gameTypes';
 
 type MenuProps = {
   currentDifficulty: Difficulty;

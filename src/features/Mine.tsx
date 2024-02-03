@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from 'src/app/store';
-import { sweepElement } from 'src/features/gameSlice';
+import { sweepMine } from 'src/features/gameSlice';
 
 type CellProps = {
   row: number;
@@ -13,6 +13,7 @@ export default function Mine({ row, col }: CellProps) {
   const { element, isRevealed } = useSelector(
     (state: RootState) => state.game.board[row][col]
   );
+  const { exploded } = useSelector((state: RootState) => state.game);
   const imageSize = 30;
 
   const imageURL = () => {
@@ -22,8 +23,8 @@ export default function Mine({ row, col }: CellProps) {
   };
 
   const handleCellClick = () => {
-    if (isRevealed) return;
-    dispatch(sweepElement({ row, col }));
+    if (isRevealed || exploded) return;
+    dispatch(sweepMine({ row, col }));
   };
 
   return isRevealed ? (
