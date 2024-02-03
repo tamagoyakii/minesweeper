@@ -1,7 +1,8 @@
 import { Box } from '@mui/material';
-import { borderDown } from 'src/styles/gameStyle';
-import NumberPad from 'src/features/NumberPad';
+
 import ResetButton from 'src/features/ResetButton';
+import Timer from 'src/features/Timer';
+import { borderDown } from 'src/styles/gameStyle';
 
 export default function Header() {
   return (
@@ -13,9 +14,9 @@ export default function Header() {
         justifyContent: 'space-between',
       }}
     >
-      <NumberPad />
+      {/* <NumberPad /> */}
       <ResetButton />
-      <NumberPad />
+      <Timer />
     </Box>
   );
 }

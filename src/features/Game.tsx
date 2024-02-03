@@ -1,17 +1,17 @@
-import { Box, Container } from '@mui/material';
-import Header from 'src/features/Header';
-import Board from 'src/features/Board';
-import { borderUp } from 'src/styles/gameStyle';
-import Menu from './Menu';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/app/store';
 import { useState } from 'react';
 
+import { Box } from '@mui/material';
+import { useSelector } from 'react-redux';
+
+import { RootState } from 'src/app/store';
+import Board from 'src/features/Board';
+import Header from 'src/features/Header';
+import Menu from 'src/features/Menu';
+import { borderUp } from 'src/styles/gameStyle';
+
 export default function Game() {
-  const { difficulty, board, firstClick } = useSelector(
-    (state: RootState) => state.game
-  );
   const [time, setTime] = useState(0);
+  const { difficulty, board } = useSelector((state: RootState) => state.game);
 
   return (
     <Box
@@ -36,7 +36,7 @@ export default function Game() {
         }}
       >
         <Header />
-        <Board board={board} />
+        <Board />
       </Box>
     </Box>
   );

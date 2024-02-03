@@ -1,8 +1,10 @@
-import { Box, Divider } from '@mui/material';
 import { useState } from 'react';
-import { Difficulty, setDifficulty } from './gameSlice';
-import { useDispatch } from 'react-redux';
+
 import CheckIcon from '@mui/icons-material/Check';
+import { Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
+
+import { Difficulty, setDifficulty } from 'src/features/gameSlice';
 
 type MenuProps = {
   currentDifficulty: Difficulty;
@@ -58,6 +60,7 @@ export default function Menu({ currentDifficulty }: MenuProps) {
             <Box sx={{ width: 23 }}></Box>
             <button style={buttonStyle}>New</button>
           </Box>
+          {/* <hr /> */}
           {difficulties.map((difficulty) => (
             <Box sx={{ display: 'flex' }}>
               <Box sx={{ width: 23 }}>

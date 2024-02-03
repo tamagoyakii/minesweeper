@@ -1,18 +1,22 @@
 import { Box } from '@mui/material';
-import Cell from './Cell';
+import { useSelector } from 'react-redux';
+
+import { RootState } from 'src/app/store';
+import { difficultySettings } from 'src/features/gameSlice';
+import Mine from 'src/features/Mine';
 import { borderDown } from 'src/styles/gameStyle';
 
-type BoardProps = {
-  board: number[][];
-};
+export default function Board() {
+  const difficulty = useSelector((state: RootState) => state.game.difficulty);
+  const rows = difficultySettings[difficulty].rows;
+  const cols = difficultySettings[difficulty].cols;
 
-export default function Board({ board }: BoardProps) {
   return (
     <Box sx={{ ...borderDown, display: 'flex', flexDirection: 'column' }}>
-      {board.map((row, i) => (
-        <Box sx={{ display: 'flex' }}>
-          {row.map((element, j) => (
-            <Cell key={`cell-${i}-${j}`} row={i} col={j} element={element} />
+      {Array.from({ length: rows }, (_, i) => (
+        <Box key={`row-${i}`} sx={{ display: 'flex' }}>
+          {Array.from({ length: cols }, (_, j) => (
+            <Mine key={`cell-${i}-${j}`} row={i} col={j} />
           ))}
         </Box>
       ))}

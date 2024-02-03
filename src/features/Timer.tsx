@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+
 import { useSelector } from 'react-redux';
+
 import { RootState } from 'src/app/store';
-import NumberPad from './NumberPad';
+import NumberPad from 'src/features/NumberPad';
 
 export default function Timer() {
   const isPlaying = useSelector((state: RootState) => state.game.isPlaying);

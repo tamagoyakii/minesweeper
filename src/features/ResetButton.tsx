@@ -1,5 +1,5 @@
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from 'src/app/store';
 import { resetGame } from 'src/features/gameSlice';
 
