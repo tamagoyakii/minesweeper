@@ -2,14 +2,14 @@ export const borderUp = {
   border: 4,
   borderTopColor: 'white',
   borderLeftColor: 'white',
-  borderRightColor: 'grey.500',
-  borderBottomColor: 'grey.500',
+  borderRightColor: 'grey.600',
+  borderBottomColor: 'grey.600',
 };
 
 export const borderDown = {
   border: 4,
-  borderTopColor: 'grey.500',
-  borderLeftColor: 'grey.500',
+  borderTopColor: 'grey.600',
+  borderLeftColor: 'grey.600',
   borderRightColor: 'white',
   borderBottomColor: 'white',
 };
