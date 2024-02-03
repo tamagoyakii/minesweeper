@@ -1,5 +1,5 @@
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from 'src/app/store';
 import { sweepElement } from 'src/features/gameSlice';
 
@@ -8,7 +8,7 @@ type CellProps = {
   col: number;
 };
 
-export default function Cell({ row, col }: CellProps) {
+export default function Mine({ row, col }: CellProps) {
   const dispatch = useDispatch();
   const { element, isRevealed } = useSelector(
     (state: RootState) => state.game.board[row][col]
