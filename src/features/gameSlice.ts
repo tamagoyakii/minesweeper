@@ -20,7 +20,7 @@ interface GameState {
   plantedMines: number;
   remainingMines: number;
   time: number;
-  firstClick: boolean;
+  isPlaying: boolean;
 }
 
 const initialState: GameState = {
@@ -32,7 +32,7 @@ const initialState: GameState = {
   plantedMines: difficultySettings[Difficulty.Intermediate].mines,
   remainingMines: difficultySettings[Difficulty.Intermediate].mines,
   time: 0,
-  firstClick: false,
+  isPlaying: false,
 };
 
 export const gameSlice = createSlice({
