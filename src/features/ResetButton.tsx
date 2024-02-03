@@ -1,21 +1,29 @@
-import { Box } from '@mui/material';
-import { borderUp } from 'src/styles/gameStyle';
-import MoodIcon from '@mui/icons-material/Mood';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/app/store';
+import { resetGame } from 'src/features/gameSlice';
 
 export default function ResetButton() {
+  const dispatch = useDispatch();
+  const exploded = useSelector((state: RootState) => state.game.exploded);
+  const imageSize = 50;
+
+  const imageURL = () => {
+    if (exploded) return 'facedead';
+    return 'facesmile';
+  };
+
+  const handleGameReset = () => {
+    dispatch(resetGame());
+  };
+
   return (
-    <Box sx={{ ...borderUp }}>
-      <Box
-        sx={{
-          backgroundColor: 'yellow',
-          borderRadius: '40px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <MoodIcon fontSize='large' />
-      </Box>
-    </Box>
+    <img
+      src={`https://freeminesweeper.org/images/${imageURL()}.gif`}
+      width={imageSize}
+      height={imageSize}
+      alt=''
+      onClick={handleGameReset}
+    />
   );
 }
