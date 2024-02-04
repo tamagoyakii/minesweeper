@@ -37,15 +37,15 @@ export default function CustomModal({
       isNaN(width) ||
       isNaN(height) ||
       isNaN(bombs) ||
-      width < 1 ||
-      height < 1 ||
+      width < 8 ||
+      height < 8 ||
       bombs < 1 ||
       width > 100 ||
       height > 100 ||
       bombs > (width * height * 1) / 3
     ) {
       alert(
-        'Minesweeper dimensions invalid:\nGame Height: from 1 to 100\nGame Width: From 1 to 100\nBombs: Max 1/3 of total squares'
+        'Minesweeper dimensions invalid:\nGame Height: from 8 to 100\nGame Width: From 8 to 100\nBombs: Max 1/3 of total squares'
       );
       return;
     }
