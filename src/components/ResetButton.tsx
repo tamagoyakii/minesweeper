@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from 'src/app/store';
-import { resetGame } from 'src/features/gameSlice';
+import { resetGame } from 'src/store/gameSlice';
+import { RootState } from 'src/store/store';
 
 export default function ResetButton() {
   const dispatch = useDispatch();

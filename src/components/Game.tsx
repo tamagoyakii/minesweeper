@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import { RootState } from 'src/app/store';
-import Appbar from 'src/features/Appbar';
-import Board from 'src/features/Board';
-import Header from 'src/features/Header';
+import Appbar from 'src/components/Appbar';
+import Board from 'src/components/Board';
+import Header from 'src/components/Header';
+import { RootState } from 'src/store/store';
 import { borderUp } from 'src/styles/gameStyle';
 
 import SuccessModal from './SuccessModal';

@@ -2,9 +2,8 @@ import { useState } from 'react';
 
 import { Box } from '@mui/material';
 
-import Menu from 'src/features/Menu';
-
-import CustomModal from './CustomModal';
+import CustomModal from 'src/components/CustomModal';
+import Menu from 'src/components/Menu';
 
 export default function Appbar() {
   const [openMenu, setOpenMenu] = useState(false);

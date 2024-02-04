@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
 
-import BombCounter from 'src/features/BombCounter';
-import ResetButton from 'src/features/ResetButton';
-import Timer from 'src/features/Timer';
+import BombCounter from 'src/components/BombCounter';
+import ResetButton from 'src/components/ResetButton';
+import Timer from 'src/components/Timer';
 import { borderDown } from 'src/styles/gameStyle';
 
 export default function Header() {

@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
-import { RootState } from 'src/app/store';
-import NumberPad from 'src/features/NumberPad';
+import NumberPad from 'src/components/NumberPad';
+import { RootState } from 'src/store/store';
 
 export default function BombCounter() {
   const remainingBombs = useSelector(

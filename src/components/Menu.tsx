@@ -2,8 +2,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import { Box, Divider, colors } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from 'src/app/store';
-import { resetGame, setDifficulty } from 'src/features/gameSlice';
+import { resetGame, setDifficulty } from 'src/store/gameSlice';
+import { RootState } from 'src/store/store';
 import { Difficulty } from 'src/types/gameTypes';
 
 type MenuProps = {

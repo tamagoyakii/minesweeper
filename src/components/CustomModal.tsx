@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Backdrop, Box, Button, TextField, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
-import { setCustomGame } from 'src/features/gameSlice';
+import { setCustomGame } from 'src/store/gameSlice';
 
 type CustomModalProps = {
   openCustomModal: boolean;

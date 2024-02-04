@@ -10,7 +10,7 @@ import {
 } from 'src/services/game';
 import { Difficulty, GameState } from 'src/types/gameTypes';
 
-export const difficultySets = {
+const difficultySets = {
   [Difficulty.Beginner]: { width: 8, height: 8, bombs: 10 },
   [Difficulty.Intermediate]: { width: 16, height: 16, bombs: 40 },
   [Difficulty.Expert]: { width: 32, height: 16, bombs: 100 },

@@ -1,7 +1,7 @@
 import { Backdrop, Box, Button, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import { RootState } from 'src/app/store';
+import { RootState } from 'src/store/store';
 import { Difficulty } from 'src/types/gameTypes';
 
 type SuccessModalProps = {

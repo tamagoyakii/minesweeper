@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from 'src/app/store';
-import NumberPad from 'src/features/NumberPad';
-import { setRecord } from 'src/features/recordSlice';
+import NumberPad from 'src/components/NumberPad';
+import { setRecord } from 'src/store/recordSlice';
+import { RootState } from 'src/store/store';
 
 export default function Timer() {
   const dispatch = useDispatch();

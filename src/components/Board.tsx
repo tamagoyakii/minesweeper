@@ -3,11 +3,10 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { RootState } from 'src/app/store';
-import Mine from 'src/features/Mine';
+import Mine from 'src/components/Mine';
+import { checkFlag, openArea, sweepMine } from 'src/store/gameSlice';
+import { RootState } from 'src/store/store';
 import { borderDown } from 'src/styles/gameStyle';
-
-import { checkFlag, openArea, sweepMine } from './gameSlice';
 
 export default function Board() {
   const dispatch = useDispatch();
