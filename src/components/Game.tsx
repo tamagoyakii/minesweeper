@@ -9,13 +9,13 @@ import Header from 'src/components/Header';
 import SuccessModal from 'src/components/SuccessModal';
 import { setGame } from 'src/store/gameSlice';
 import { RootState } from 'src/store/store';
-import { borderUp } from 'src/styles/gameStyle';
+import { borderUp, flexCol } from 'src/styles/gameStyle';
 
 export default function Game() {
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
   const dispatch = useDispatch();
   const succeded = useSelector((state: RootState) => state.game.succeded);
-  const { currentDifficulty, width, height, bombs } = useSelector(
+  const { width, height, bombs } = useSelector(
     (state: RootState) => state.difficulty
   );
 
@@ -36,9 +36,8 @@ export default function Game() {
   return (
     <Box
       sx={{
+        ...flexCol,
         backgroundColor: 'grey.400',
-        display: 'flex',
-        flexDirection: 'column',
         border: 1,
         borderRadius: 3,
         p: 2,
@@ -49,9 +48,8 @@ export default function Game() {
       <Box
         sx={{
           ...borderUp,
+          ...flexCol,
           p: 2,
-          display: 'flex',
-          flexDirection: 'column',
           gap: 2,
         }}
       >

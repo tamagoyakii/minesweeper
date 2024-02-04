@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { difficultySets, setDifficulty } from 'src/store/difficultySlice';
 import { resetGame, setGame } from 'src/store/gameSlice';
 import { RootState } from 'src/store/store';
+import { flexCol } from 'src/styles/gameStyle';
 import { Difficulty } from 'src/types/gameTypes';
 
 type MenuProps = {
@@ -48,12 +49,11 @@ export default function Menu({
     <Box
       sx={{
         position: 'absolute',
+        ...flexCol,
+        alignItems: 'start',
         backgroundColor: 'grey.400',
         border: 1,
         borderColor: 'black',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'start',
         p: '5px',
       }}
     >

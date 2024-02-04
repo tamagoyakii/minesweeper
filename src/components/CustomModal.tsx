@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { setDifficulty } from 'src/store/difficultySlice';
 import { setGame } from 'src/store/gameSlice';
+import { flexCol, flexRow } from 'src/styles/gameStyle';
 import { Difficulty } from 'src/types/gameTypes';
 
 type CustomModalProps = {
@@ -67,33 +68,18 @@ export default function CustomModal({
       <Box
         onClick={(e) => e.stopPropagation()}
         sx={{
+          ...flexCol,
+          gap: 5,
           background: 'white',
           color: 'black',
           borderRadius: 3,
           p: 5,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 5,
         }}
       >
         <Typography variant='h3'>Custom Game Setup</Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-          }}
-        >
+        <Box sx={{ ...flexCol, gap: 2 }}>
           {Object.entries(customSetting).map(([key, value]) => (
-            <Box
-              key={key}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 1,
-              }}
-            >
+            <Box key={key} sx={{ ...flexRow, gap: 1 }}>
               <Typography variant='h5'>{key}</Typography>
               <TextField
                 value={value}
@@ -104,15 +90,7 @@ export default function CustomModal({
             </Box>
           ))}
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: 'black',
-            gap: 3,
-          }}
-        >
+        <Box sx={{ ...flexRow, color: 'black', gap: 3 }}>
           <Button
             variant='outlined'
             size='large'

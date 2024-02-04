@@ -2,6 +2,7 @@ import { Backdrop, Box, Button, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { RootState } from 'src/store/store';
+import { flexCol } from 'src/styles/gameStyle';
 import { Difficulty } from 'src/types/gameTypes';
 
 type SuccessModalProps = {
@@ -42,14 +43,13 @@ export default function SuccessModal({
       <Box
         onClick={(e) => e.stopPropagation()}
         sx={{
+          ...flexCol,
+          alignItems: 'start',
+          gap: 5,
           background: 'white',
           color: 'black',
           borderRadius: 3,
           p: 5,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'start',
-          gap: 5,
         }}
       >
         <Typography variant='h3'>HURRAY!</Typography>
@@ -57,9 +57,7 @@ export default function SuccessModal({
           Congratulations on winning Minesweeper
         </Typography>
         <Typography variant='h4'>{`Game time: ${recentRecord} seconds`}</Typography>
-        <Box
-          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}
-        >
+        <Box sx={{ ...flexCol, alignItems: 'start' }}>
           {renderRecord()}
           <Typography variant='h4'>{`Number of clicks was: ${clicks}`}</Typography>
         </Box>

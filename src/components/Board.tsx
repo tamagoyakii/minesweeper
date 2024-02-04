@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Mine from 'src/components/Mine';
 import { checkFlag, openArea, sweepMine } from 'src/store/gameSlice';
 import { RootState } from 'src/store/store';
-import { borderDown } from 'src/styles/gameStyle';
+import { borderDown, flexCol } from 'src/styles/gameStyle';
 
 export default function Board() {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export default function Board() {
   }, [board]);
 
   return (
-    <Box sx={{ ...borderDown, display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ ...borderDown, ...flexCol }}>
       {board.map((row, i) => (
         <Box key={`row-${i}`} sx={{ display: 'flex' }}>
           {row.map((el, j) => (

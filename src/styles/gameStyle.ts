@@ -13,3 +13,14 @@ export const borderDown = {
   borderRightColor: 'white',
   borderBottomColor: 'white',
 };
+
+export const flexRow = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+};
+
+export const flexCol = {
+  display: 'flex',
+  flexDirection: 'column',
+};
