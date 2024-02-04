@@ -1,4 +1,4 @@
-import { Element, FlagTypes } from 'src/types/gameTypes';
+import { Element, FlagTypes, GameState } from 'src/types/gameTypes';
 
 const moveRow = [0, 0, 1, -1, 1, -1, -1, 1];
 const moveCol = [1, -1, 0, 0, 1, -1, 1, -1];
@@ -11,6 +11,19 @@ export const initBoard = (width: number, height: number) => {
       flagType: 'blank' as FlagTypes,
     }))
   );
+};
+
+export const resetGameState = (state: GameState) => {
+  const width = state.width;
+  const height = state.height;
+
+  state.board = initBoard(width, height);
+  state.remainingBombs = state.plantedBombs;
+  state.remainingMines = width * height;
+  state.isPlaying = false;
+  state.exploded = false;
+  state.succeded = false;
+  state.clicks = 0;
 };
 
 export const plantBombs = (
@@ -42,6 +55,19 @@ export const plantBombs = (
     }
     mines--;
   }
+};
+
+export const openBombs = (board: Element[][]) => {
+  board.forEach((row) => {
+    row.forEach((el) => {
+      if (el.flagType === 'bombflagged' && el.element !== -1) {
+        el.element = -3;
+      }
+      if (el.element < 0) {
+        el.isRevealed = true;
+      }
+    });
+  });
 };
 
 export const dfs = (board: Element[][], row: number, col: number) => {
@@ -99,17 +125,4 @@ export const openAdjacentArea = (
     }
     return acc;
   }, 0);
-};
-
-export const revealBombs = (board: Element[][]) => {
-  board.forEach((row) => {
-    row.forEach((el) => {
-      if (el.flagType === 'bombflagged' && el.element !== -1) {
-        el.element = -3;
-      }
-      if (el.element < 0) {
-        el.isRevealed = true;
-      }
-    });
-  });
 };
