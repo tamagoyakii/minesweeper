@@ -7,7 +7,7 @@ import Game from 'src/features/Game';
 function App() {
   return (
     <Provider store={store}>
-      <div className='App'>
+      <div className='App' onContextMenu={(e) => e.preventDefault()}>
         <Game />
       </div>
     </Provider>

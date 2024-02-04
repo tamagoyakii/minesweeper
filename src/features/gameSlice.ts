@@ -1,7 +1,12 @@
-import { Height } from '@mui/icons-material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { dfs, initBoard, plantBombs } from 'src/services/game';
+import {
+  dfs,
+  initBoard,
+  openAdjacentArea,
+  plantBombs,
+  revealBombs,
+} from 'src/services/game';
 import { Difficulty, GameState } from 'src/types/gameTypes';
 
 export const difficultySettings = {
@@ -80,16 +85,7 @@ export const gameSlice = createSlice({
           state.board[row][col].isRevealed = true;
           state.board[row][col].element = -2;
           state.exploded = true;
-          state.board.forEach((row) => {
-            row.forEach((el) => {
-              if (el.flagType === 'bombflagged' && el.element !== -1) {
-                el.element = -3;
-              }
-              if (el.element < 0) {
-                el.isRevealed = true;
-              }
-            });
-          });
+          revealBombs(state.board);
         } else {
           state.remainingMines -= dfs(state.board, row, col);
         }
@@ -134,9 +130,28 @@ export const gameSlice = createSlice({
         }
       }
     },
+    openArea(state, action: PayloadAction<{ row: number; col: number }>) {
+      const { row, col } = action.payload;
+      const res = openAdjacentArea(state.board, row, col);
+
+      if (res === -1) {
+        state.exploded = true;
+        openAdjacentArea(state.board, row, col);
+        revealBombs(state.board);
+      } else {
+        state.clicks++;
+        state.remainingMines -= res;
+      }
+    },
   },
 });
 
-export const { setDifficulty, setCustom, sweepMine, resetGame, checkFlag } =
-  gameSlice.actions;
+export const {
+  setDifficulty,
+  setCustom,
+  sweepMine,
+  resetGame,
+  checkFlag,
+  openArea,
+} = gameSlice.actions;
 export default gameSlice.reducer;
