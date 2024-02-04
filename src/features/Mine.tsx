@@ -26,7 +26,7 @@ export default function Mine({ row, col }: MineProps) {
   };
 
   const handleLeftClick = () => {
-    if (isRevealed || exploded) return;
+    if (isRevealed || exploded || flagType === 'bombflagged') return;
     dispatch(sweepMine({ row, col }));
   };
 

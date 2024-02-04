@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from 'src/app/store';
 import NumberPad from 'src/features/NumberPad';
+import { setRecord } from 'src/features/recordSlice';
 
 export default function Timer() {
-  const isPlaying = useSelector((state: RootState) => state.game.isPlaying);
+  const dispatch = useDispatch();
+  const { difficulty, isPlaying, succeded, exploded } = useSelector(
+    (state: RootState) => state.game
+  );
   const [second, setSecond] = useState(0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    if (isPlaying) {
+    if (isPlaying && !succeded && !exploded) {
       interval = setInterval(() => {
         setSecond((prev) => {
           if (prev < 999) return prev + 1;
@@ -23,7 +27,13 @@ export default function Timer() {
     return () => {
       clearInterval(interval);
     };
-  }, [isPlaying]);
+  }, [isPlaying, succeded, exploded]);
+
+  useEffect(() => {
+    if (succeded) {
+      dispatch(setRecord({ difficulty, record: second }));
+    }
+  }, [succeded]);
 
   return <NumberPad value={second} />;
 }
