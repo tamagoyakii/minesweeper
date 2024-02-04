@@ -69,6 +69,16 @@ export const gameSlice = createSlice({
           state.board[row][col].element = -2;
           state.isPlaying = false;
           state.exploded = true;
+          state.board.forEach((row) => {
+            row.forEach((el) => {
+              if (el.flagType === 'bombflagged' && el.element !== -1) {
+                el.element = -3;
+              }
+              if (el.element < 0) {
+                el.isRevealed = true;
+              }
+            });
+          });
         } else {
           dfs(state.board, row, col);
         }

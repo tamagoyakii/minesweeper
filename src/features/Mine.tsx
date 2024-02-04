@@ -19,9 +19,10 @@ export default function Mine({ row, col }: MineProps) {
   const imageSize = 30;
 
   const imageURL = () => {
-    if (element >= 0) return `open${element}`;
     if (element === -1) return 'bombrevealed';
     if (element === -2) return 'bombdeath';
+    if (element === -3) return 'bombmisflagged';
+    return `open${element}`;
   };
 
   const handleLeftClick = () => {
