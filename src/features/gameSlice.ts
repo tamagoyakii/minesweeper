@@ -86,7 +86,6 @@ export const gameSlice = createSlice({
         state.succeded = true;
       }
     },
-
     checkFlag(state, action: PayloadAction<{ row: number; col: number }>) {
       const { row, col } = action.payload;
 
@@ -100,17 +99,17 @@ export const gameSlice = createSlice({
         state.board[row][col].flagType = 'blank';
       }
       if (state.remainingBombs === 0) {
-        const isSucceded = state.board.every((row) =>
-          row.every((el) => {
-            if (el.element === -1) {
-              return el.flagType === 'bombflagged';
+        for (let i = 0; i < state.height; i++) {
+          for (let j = 0; j < state.width; j++) {
+            if (
+              state.board[i][j].element < 0 &&
+              state.board[i][j].flagType !== 'bombflagged'
+            ) {
+              return;
             }
-            return el.isRevealed;
-          })
-        );
-        if (isSucceded) {
-          state.succeded = true;
+          }
         }
+        state.succeded = true;
       }
     },
     openArea(state, action: PayloadAction<{ row: number; col: number }>) {

@@ -1,28 +1,11 @@
-import { Dispatch, MouseEventHandler, SetStateAction, useState } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
-
-import { RootState } from 'src/app/store';
-import { checkFlag, openArea, sweepMine } from 'src/features/gameSlice';
+import { Element } from 'src/types/gameTypes';
 
 type MineProps = {
-  row: number;
-  col: number;
-  rightClicked: boolean;
-  setRightClicked: Dispatch<SetStateAction<boolean>>;
+  mine: Element;
 };
 
-export default function Mine({
-  row,
-  col,
-  rightClicked,
-  setRightClicked,
-}: MineProps) {
-  const dispatch = useDispatch();
-  const { element, isRevealed, flagType } = useSelector(
-    (state: RootState) => state.game.board[row][col]
-  );
-  const exploded = useSelector((state: RootState) => state.game.exploded);
+export default function Mine({ mine }: MineProps) {
+  const { element, isRevealed, flagType } = mine;
   const imageSize = 30;
 
   const imageURL = () => {
@@ -33,47 +16,12 @@ export default function Mine({
     return `open${element}`;
   };
 
-  const handleMouseDown: MouseEventHandler<HTMLImageElement> = (e) => {
-    if (e.button === 2) setRightClicked(true);
-  };
-
-  const handleMouseUp: MouseEventHandler<HTMLImageElement> = (e) => {
-    if (exploded) return;
-
-    // 우클릭 상태에서 좌클릭한 경우, "Area Open" 처리
-    if (e.button === 0 && rightClicked) {
-      if (isRevealed && element >= 0) {
-        dispatch(openArea({ row, col }));
-      }
-    }
-
-    // 좌클릭한 경우, 일반적인 칸 열기 처리
-    if (e.button === 0 && !rightClicked) {
-      if (!isRevealed && flagType !== 'bombflagged') {
-        dispatch(sweepMine({ row, col }));
-      }
-    }
-
-    // 우클릭을 떼는 경우, 플래그 처리
-    if (e.button !== 0 && rightClicked) {
-      if (!isRevealed) {
-        dispatch(checkFlag({ row, col }));
-      }
-    }
-
-    if (e.button === 2) setRightClicked(false);
-  };
-
   return (
     <img
       src={`https://freeminesweeper.org/images/${imageURL()}.gif`}
       width={imageSize}
       height={imageSize}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
       alt=''
-      data-row={row}
-      data-col={handleMouseUp}
     />
   );
 }
