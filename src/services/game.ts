@@ -48,16 +48,19 @@ export const dfs = (board: Element[][], row: number, col: number) => {
   const height = board.length;
   const width = board[0].length;
 
-  if (col < 0 || col >= width || row < 0 || row >= height) return;
-  if (board[row][col].isRevealed) return;
-  if (board[row][col].element === -1) return;
+  if (col < 0 || col >= width || row < 0 || row >= height) return 0;
+  if (board[row][col].isRevealed) return 0;
+  if (board[row][col].element === -1) return 0;
+  if (board[row][col].flagType === 'bombflagged') return 0;
 
+  let revealedMine = 1;
   board[row][col].isRevealed = true;
   if (board[row][col].element === 0) {
     for (let i = 0; i < 8; i++) {
       const newRow = row + moveRow[i];
       const newCol = col + moveCol[i];
-      dfs(board, newRow, newCol);
+      revealedMine += dfs(board, newRow, newCol);
     }
   }
+  return revealedMine;
 };

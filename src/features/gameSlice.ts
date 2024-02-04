@@ -1,3 +1,4 @@
+import { Height } from '@mui/icons-material';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { dfs, initBoard, plantBombs } from 'src/services/game';
@@ -18,11 +19,16 @@ const initialState: GameState = {
   ),
   plantedBombs: difficultySettings[Difficulty.Intermediate].bombs,
   remainingBombs: difficultySettings[Difficulty.Intermediate].bombs,
+  remainingMines:
+    difficultySettings[Difficulty.Intermediate].width *
+      difficultySettings[Difficulty.Intermediate].height -
+    difficultySettings[Difficulty.Intermediate].bombs,
   width: difficultySettings[Difficulty.Intermediate].width,
   height: difficultySettings[Difficulty.Intermediate].height,
-  time: 0,
   isPlaying: false,
   exploded: false,
+  succeded: false,
+  clicks: 0,
 };
 
 export const gameSlice = createSlice({
@@ -38,9 +44,12 @@ export const gameSlice = createSlice({
       state.board = initBoard(width, height);
       state.plantedBombs = difficultySettings[selectedDifficulty].bombs;
       state.remainingBombs = difficultySettings[selectedDifficulty].bombs;
+      state.remainingMines = width * height - state.plantedBombs;
       state.width = width;
       state.height = height;
       state.isPlaying = false;
+      state.succeded = false;
+      state.clicks = 0;
     },
     setCustom(
       state,
@@ -52,9 +61,12 @@ export const gameSlice = createSlice({
       state.board = initBoard(width, height);
       state.plantedBombs = bombs;
       state.remainingBombs = bombs;
+      state.remainingMines = width * height - bombs;
       state.width = width;
       state.height = height;
       state.isPlaying = false;
+      state.succeded = false;
+      state.clicks = 0;
     },
     sweepMine(state, action: PayloadAction<{ row: number; col: number }>) {
       const { row, col } = action.payload;
@@ -62,12 +74,11 @@ export const gameSlice = createSlice({
       if (state.isPlaying === false) {
         plantBombs(state.board, state.plantedBombs, row, col);
         state.isPlaying = true;
-        dfs(state.board, row, col);
+        state.remainingMines -= dfs(state.board, row, col);
       } else {
         if (state.board[row][col].element === -1) {
           state.board[row][col].isRevealed = true;
           state.board[row][col].element = -2;
-          state.isPlaying = false;
           state.exploded = true;
           state.board.forEach((row) => {
             row.forEach((el) => {
@@ -80,15 +91,22 @@ export const gameSlice = createSlice({
             });
           });
         } else {
-          dfs(state.board, row, col);
+          state.remainingMines -= dfs(state.board, row, col);
         }
+      }
+      state.clicks++;
+      if (state.remainingMines === 0) {
+        state.succeded = true;
       }
     },
     resetGame(state) {
       state.board = initBoard(state.width, state.height);
       state.remainingBombs = state.plantedBombs;
+      state.remainingMines = state.width * state.height - state.plantedBombs;
       state.isPlaying = false;
       state.exploded = false;
+      state.succeded = false;
+      state.clicks = 0;
     },
     checkFlag(state, action: PayloadAction<{ row: number; col: number }>) {
       const { row, col } = action.payload;
@@ -101,6 +119,19 @@ export const gameSlice = createSlice({
         state.remainingBombs++;
       } else {
         state.board[row][col].flagType = 'blank';
+      }
+      if (state.remainingBombs === 0) {
+        const isSucceded = state.board.every((row) =>
+          row.every((el) => {
+            if (el.element === -1) {
+              return el.flagType === 'bombflagged';
+            }
+            return el.isRevealed;
+          })
+        );
+        if (isSucceded) {
+          state.succeded = true;
+        }
       }
     },
   },
