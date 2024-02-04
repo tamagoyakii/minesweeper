@@ -98,19 +98,6 @@ export const gameSlice = createSlice({
       } else {
         state.board[row][col].flagType = 'blank';
       }
-      if (state.remainingBombs === 0) {
-        for (let i = 0; i < state.height; i++) {
-          for (let j = 0; j < state.width; j++) {
-            if (
-              state.board[i][j].element < 0 &&
-              state.board[i][j].flagType !== 'bombflagged'
-            ) {
-              return;
-            }
-          }
-        }
-        state.succeded = true;
-      }
     },
     openArea(state, action: PayloadAction<{ row: number; col: number }>) {
       const { row, col } = action.payload;
