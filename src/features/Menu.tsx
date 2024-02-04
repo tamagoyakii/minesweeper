@@ -58,6 +58,7 @@ export default function Menu({
       <MenuDivider />
       {difficulties.map((difficulty) => (
         <MenuButton
+          key={difficulty}
           label={difficulty}
           isChecked={currentDifficulty === difficulty}
           onClick={() => handleDifficultyChange(difficulty)}
