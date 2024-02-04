@@ -4,20 +4,22 @@ import { dfs, initBoard, plantBombs } from 'src/services/game';
 import { Difficulty, GameState } from 'src/types/gameTypes';
 
 export const difficultySettings = {
-  [Difficulty.Beginner]: { rows: 8, cols: 8, mines: 10 },
-  [Difficulty.Intermediate]: { rows: 16, cols: 16, mines: 40 },
-  [Difficulty.Expert]: { rows: 16, cols: 32, mines: 100 },
-  [Difficulty.Custom]: { rows: 0, cols: 0, mines: 0 },
+  [Difficulty.Beginner]: { width: 8, height: 8, bombs: 10 },
+  [Difficulty.Intermediate]: { width: 16, height: 16, bombs: 40 },
+  [Difficulty.Expert]: { width: 16, height: 32, bombs: 100 },
+  [Difficulty.Custom]: { width: 0, height: 0, bombs: 0 },
 };
 
 const initialState: GameState = {
   difficulty: Difficulty.Intermediate,
   board: initBoard(
-    difficultySettings[Difficulty.Intermediate].rows,
-    difficultySettings[Difficulty.Intermediate].cols
+    difficultySettings[Difficulty.Intermediate].width,
+    difficultySettings[Difficulty.Intermediate].height
   ),
-  plantedBombs: difficultySettings[Difficulty.Intermediate].mines,
-  remainingBombs: difficultySettings[Difficulty.Intermediate].mines,
+  plantedBombs: difficultySettings[Difficulty.Intermediate].bombs,
+  remainingBombs: difficultySettings[Difficulty.Intermediate].bombs,
+  width: 0,
+  height: 0,
   time: 0,
   isPlaying: false,
   exploded: false,
@@ -29,26 +31,36 @@ export const gameSlice = createSlice({
   reducers: {
     setDifficulty(state, action: PayloadAction<Difficulty>) {
       const selectedDifficulty = action.payload;
+      const width = difficultySettings[selectedDifficulty].width;
+      const height = difficultySettings[selectedDifficulty].height;
 
       state.difficulty = selectedDifficulty;
-      state.board = initBoard(
-        difficultySettings[selectedDifficulty].rows,
-        difficultySettings[selectedDifficulty].cols
-      );
-      state.plantedBombs = difficultySettings[selectedDifficulty].mines;
-      state.remainingBombs = difficultySettings[selectedDifficulty].mines;
+      state.board = initBoard(width, height);
+      state.plantedBombs = difficultySettings[selectedDifficulty].bombs;
+      state.remainingBombs = difficultySettings[selectedDifficulty].bombs;
+      state.width = width;
+      state.height = height;
+      state.isPlaying = false;
+    },
+    setCustom(
+      state,
+      action: PayloadAction<{ width: number; height: number; bombs: number }>
+    ) {
+      const { width, height, bombs } = action.payload;
+
+      state.difficulty = Difficulty.Custom;
+      state.board = initBoard(width, height);
+      state.plantedBombs = bombs;
+      state.remainingBombs = bombs;
+      state.width = width;
+      state.height = height;
       state.isPlaying = false;
     },
     sweepMine(state, action: PayloadAction<{ row: number; col: number }>) {
       const { row, col } = action.payload;
 
       if (state.isPlaying === false) {
-        plantBombs(
-          state.board,
-          difficultySettings[state.difficulty].mines,
-          row,
-          col
-        );
+        plantBombs(state.board, state.plantedBombs, row, col);
         state.isPlaying = true;
         dfs(state.board, row, col);
       } else {
@@ -64,11 +76,11 @@ export const gameSlice = createSlice({
     },
     resetGame(state) {
       state.board = initBoard(
-        difficultySettings[state.difficulty].rows,
-        difficultySettings[state.difficulty].cols
+        difficultySettings[state.difficulty].width,
+        difficultySettings[state.difficulty].height
       );
-      state.plantedBombs = difficultySettings[state.difficulty].mines;
-      state.remainingBombs = difficultySettings[state.difficulty].mines;
+      state.plantedBombs = difficultySettings[state.difficulty].bombs;
+      state.remainingBombs = difficultySettings[state.difficulty].bombs;
       state.isPlaying = false;
       state.exploded = false;
     },
@@ -88,6 +100,6 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setDifficulty, sweepMine, resetGame, checkFlag } =
+export const { setDifficulty, setCustom, sweepMine, resetGame, checkFlag } =
   gameSlice.actions;
 export default gameSlice.reducer;

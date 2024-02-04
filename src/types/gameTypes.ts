@@ -18,6 +18,8 @@ export interface GameState {
   board: Element[][];
   plantedBombs: number;
   remainingBombs: number;
+  width: number;
+  height: number;
   time: number;
   isPlaying: boolean;
   exploded: boolean;

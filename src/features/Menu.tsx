@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import CheckIcon from '@mui/icons-material/Check';
 import { Box, Divider, colors } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,10 +7,14 @@ import { resetGame, setDifficulty } from 'src/features/gameSlice';
 import { Difficulty } from 'src/types/gameTypes';
 
 type MenuProps = {
-  setOpenDropdown: Dispatch<SetStateAction<boolean>>;
+  handleMenuClose: () => void;
+  handleCustomModalOpen: () => void;
 };
 
-export default function Menu({ setOpenDropdown }: MenuProps) {
+export default function Menu({
+  handleMenuClose,
+  handleCustomModalOpen,
+}: MenuProps) {
   const dispatch = useDispatch();
   const currentDifficulty = useSelector(
     (state: RootState) => state.game.difficulty
@@ -26,13 +28,17 @@ export default function Menu({ setOpenDropdown }: MenuProps) {
   ];
 
   const handleDifficultyChange = (difficulty: Difficulty) => {
+    if (difficulty === Difficulty.Custom) {
+      handleCustomModalOpen();
+      return;
+    }
     dispatch(setDifficulty(difficulty));
-    setOpenDropdown(false);
+    handleMenuClose();
   };
 
   const handleResetGame = () => {
     dispatch(resetGame());
-    setOpenDropdown(false);
+    handleMenuClose();
   };
 
   return (
@@ -58,7 +64,7 @@ export default function Menu({ setOpenDropdown }: MenuProps) {
         />
       ))}
       <MenuDivider />
-      <MenuButton label='Exit' onClick={() => setOpenDropdown(false)} />
+      <MenuButton label='Exit' onClick={handleMenuClose} />
     </Box>
   );
 }
