@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { Backdrop, Box, Button, TextField, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
-import { setCustomGame } from 'src/store/gameSlice';
+import { setDifficulty } from 'src/store/difficultySlice';
+import { setGame } from 'src/store/gameSlice';
+import { Difficulty } from 'src/types/gameTypes';
 
 type CustomModalProps = {
   openCustomModal: boolean;
@@ -49,7 +51,10 @@ export default function CustomModal({
       );
       return;
     }
-    dispatch(setCustomGame({ width, height, bombs }));
+    dispatch(
+      setDifficulty({ difficulty: Difficulty.Custom, width, height, bombs })
+    );
+    dispatch(setGame({ width, height, bombs }));
     handleCustomModalClose();
   };
 

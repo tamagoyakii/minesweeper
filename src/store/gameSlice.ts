@@ -8,17 +8,10 @@ import {
   resetGameState,
   openBombs,
 } from 'src/services/game';
+import { difficultySets } from 'src/store/difficultySlice';
 import { Difficulty, GameState } from 'src/types/gameTypes';
 
-const difficultySets = {
-  [Difficulty.Beginner]: { width: 8, height: 8, bombs: 10 },
-  [Difficulty.Intermediate]: { width: 16, height: 16, bombs: 40 },
-  [Difficulty.Expert]: { width: 32, height: 16, bombs: 100 },
-  [Difficulty.Custom]: { width: 0, height: 0, bombs: 0 },
-};
-
 const initialState: GameState = {
-  difficulty: Difficulty.Intermediate,
   board: initBoard(
     difficultySets[Difficulty.Intermediate].width,
     difficultySets[Difficulty.Intermediate].height
@@ -28,8 +21,6 @@ const initialState: GameState = {
   remainingMines:
     difficultySets[Difficulty.Intermediate].width *
     difficultySets[Difficulty.Intermediate].height,
-  width: difficultySets[Difficulty.Intermediate].width,
-  height: difficultySets[Difficulty.Intermediate].height,
   isPlaying: false,
   exploded: false,
   succeded: false,
@@ -40,25 +31,13 @@ export const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setDifficulty(state, action: PayloadAction<Difficulty>) {
-      const selectedDifficulty = action.payload;
-
-      state.difficulty = selectedDifficulty;
-      state.width = difficultySets[selectedDifficulty].width;
-      state.height = difficultySets[selectedDifficulty].height;
-      state.plantedBombs = difficultySets[selectedDifficulty].bombs;
-      resetGameState(state);
-    },
-    setCustomGame(
+    setGame(
       state,
       action: PayloadAction<{ width: number; height: number; bombs: number }>
     ) {
-      const { width, height, bombs } = action.payload;
-
-      state.difficulty = Difficulty.Custom;
-      state.width = width;
-      state.height = height;
-      state.plantedBombs = bombs;
+      const { width, height } = action.payload;
+      state.board = initBoard(width, height);
+      state.plantedBombs = action.payload.bombs;
       resetGameState(state);
     },
     resetGame(state) {
@@ -111,16 +90,13 @@ export const gameSlice = createSlice({
         state.clicks++;
         state.remainingMines -= res;
       }
+      if (state.remainingMines === state.plantedBombs) {
+        state.succeded = true;
+      }
     },
   },
 });
 
-export const {
-  setDifficulty,
-  setCustomGame,
-  sweepMine,
-  resetGame,
-  checkFlag,
-  openArea,
-} = gameSlice.actions;
+export const { setGame, resetGame, sweepMine, checkFlag, openArea } =
+  gameSlice.actions;
 export default gameSlice.reducer;

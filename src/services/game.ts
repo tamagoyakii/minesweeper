@@ -14,10 +14,16 @@ export const initBoard = (width: number, height: number) => {
 };
 
 export const resetGameState = (state: GameState) => {
-  const width = state.width;
-  const height = state.height;
+  const width = state.board[0].length;
+  const height = state.board.length;
 
-  state.board = initBoard(width, height);
+  state.board.forEach((row) =>
+    row.forEach((el) => {
+      el.element = 0;
+      el.isRevealed = false;
+      el.flagType = 'blank';
+    })
+  );
   state.remainingBombs = state.plantedBombs;
   state.remainingMines = width * height;
   state.isPlaying = false;

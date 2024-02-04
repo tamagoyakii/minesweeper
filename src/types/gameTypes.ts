@@ -14,13 +14,10 @@ export interface Element {
 }
 
 export interface GameState {
-  difficulty: Difficulty;
   board: Element[][];
   plantedBombs: number;
   remainingBombs: number;
   remainingMines: number;
-  width: number;
-  height: number;
   isPlaying: boolean;
   exploded: boolean;
   succeded: boolean;

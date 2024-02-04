@@ -2,7 +2,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import { Box, Divider, colors } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { resetGame, setDifficulty } from 'src/store/gameSlice';
+import { difficultySets, setDifficulty } from 'src/store/difficultySlice';
+import { resetGame, setGame } from 'src/store/gameSlice';
 import { RootState } from 'src/store/store';
 import { Difficulty } from 'src/types/gameTypes';
 
@@ -16,8 +17,8 @@ export default function Menu({
   handleCustomModalOpen,
 }: MenuProps) {
   const dispatch = useDispatch();
-  const currentDifficulty = useSelector(
-    (state: RootState) => state.game.difficulty
+  const { currentDifficulty } = useSelector(
+    (state: RootState) => state.difficulty
   );
 
   const difficulties = [
@@ -32,7 +33,9 @@ export default function Menu({
       handleCustomModalOpen();
       return;
     }
-    dispatch(setDifficulty(difficulty));
+    const { width, height, bombs } = difficultySets[difficulty];
+    dispatch(setDifficulty({ difficulty }));
+    dispatch(setGame({ width, height, bombs }));
     handleMenuClose();
   };
 

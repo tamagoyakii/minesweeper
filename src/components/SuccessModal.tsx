@@ -13,21 +13,22 @@ export default function SuccessModal({
   openSuccessModal,
   handleSuccessModalClose,
 }: SuccessModalProps) {
-  const { difficulty, width, height, plantedBombs, clicks } = useSelector(
-    (state: RootState) => state.game
+  const { currentDifficulty, width, height, bombs } = useSelector(
+    (state: RootState) => state.difficulty
   );
+  const clicks = useSelector((state: RootState) => state.game.clicks);
   const { recentRecord, bestRecord } = useSelector(
-    (state: RootState) => state.record[difficulty]
+    (state: RootState) => state.record[currentDifficulty]
   );
 
   const renderRecord = () => {
-    if (difficulty === Difficulty.Custom) {
+    if (currentDifficulty === Difficulty.Custom) {
       return (
-        <Typography variant='h4'>{`Game parameters: ${width}x${height} w/ ${plantedBombs} bombs `}</Typography>
+        <Typography variant='h4'>{`Game parameters: ${width}x${height} w/ ${bombs} bombs `}</Typography>
       );
     } else {
       return (
-        <Typography variant='h4'>{`Your best ${difficulty} time is: ${bestRecord} seconds`}</Typography>
+        <Typography variant='h4'>{`Your best ${currentDifficulty} time is: ${bestRecord} seconds`}</Typography>
       );
     }
   };

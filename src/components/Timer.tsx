@@ -8,7 +8,10 @@ import { RootState } from 'src/store/store';
 
 export default function Timer() {
   const dispatch = useDispatch();
-  const { difficulty, isPlaying, succeded, exploded } = useSelector(
+  const difficulty = useSelector(
+    (state: RootState) => state.difficulty.currentDifficulty
+  );
+  const { isPlaying, succeded, exploded } = useSelector(
     (state: RootState) => state.game
   );
   const [second, setSecond] = useState(0);
