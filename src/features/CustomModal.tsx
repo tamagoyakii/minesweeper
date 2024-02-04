@@ -16,25 +16,27 @@ export default function CustomModal({
 }: CustomModalProps) {
   const dispatch = useDispatch();
   const [customSetting, setCustomSetting] = useState({
-    width: 10,
-    height: 10,
-    bombs: 10,
+    width: '10',
+    height: '10',
+    bombs: '10',
   });
 
   const handleInputChange = (key: string, value: string) => {
-    let number = parseInt(value, 10);
-    if (isNaN(number)) number = 0;
-
     setCustomSetting((prev) => ({
       ...prev,
-      [key]: number,
+      [key]: value,
     }));
   };
 
   const handleSettingApply = () => {
-    const { width, height, bombs } = customSetting;
+    const width = Number(customSetting.width);
+    const height = Number(customSetting.height);
+    const bombs = Number(customSetting.bombs);
 
     if (
+      isNaN(width) ||
+      isNaN(height) ||
+      isNaN(bombs) ||
       width < 1 ||
       height < 1 ||
       bombs < 1 ||
@@ -42,7 +44,9 @@ export default function CustomModal({
       height > 100 ||
       bombs > (width * height * 1) / 3
     ) {
-      alert('Invalid custom setting');
+      alert(
+        'Minesweeper dimensions invalid:\nGame Height: from 1 to 100\nGame Width: From 1 to 100\nBombs: Max 1/3 of total squares'
+      );
       return;
     }
     dispatch(setCustom({ width, height, bombs }));
