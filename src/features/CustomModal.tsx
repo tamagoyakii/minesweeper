@@ -108,7 +108,12 @@ export default function CustomModal({
             gap: 3,
           }}
         >
-          <Button variant='outlined' size='large' fullWidth>
+          <Button
+            variant='outlined'
+            size='large'
+            fullWidth
+            onClick={handleCustomModalClose}
+          >
             Close
           </Button>
           <Button
