@@ -6,7 +6,7 @@ import { Difficulty, GameState } from 'src/types/gameTypes';
 export const difficultySettings = {
   [Difficulty.Beginner]: { width: 8, height: 8, bombs: 10 },
   [Difficulty.Intermediate]: { width: 16, height: 16, bombs: 40 },
-  [Difficulty.Expert]: { width: 16, height: 32, bombs: 100 },
+  [Difficulty.Expert]: { width: 32, height: 16, bombs: 100 },
   [Difficulty.Custom]: { width: 0, height: 0, bombs: 0 },
 };
 
@@ -75,12 +75,8 @@ export const gameSlice = createSlice({
       }
     },
     resetGame(state) {
-      state.board = initBoard(
-        difficultySettings[state.difficulty].width,
-        difficultySettings[state.difficulty].height
-      );
-      state.plantedBombs = difficultySettings[state.difficulty].bombs;
-      state.remainingBombs = difficultySettings[state.difficulty].bombs;
+      state.board = initBoard(state.width, state.height);
+      state.remainingBombs = state.plantedBombs;
       state.isPlaying = false;
       state.exploded = false;
     },
