@@ -12,6 +12,7 @@ export default function Board() {
   const dispatch = useDispatch();
   const { board, exploded } = useSelector((state: RootState) => state.game);
   const [rightClicked, setRightClicked] = useState(false);
+  const imageSize = 30;
 
   const handleMouseDown = (button: number) => {
     if (button === 2) setRightClicked(true);
@@ -54,6 +55,7 @@ export default function Board() {
               key={`el-${i}-${j}`}
               onMouseDown={(e) => handleMouseDown(e.button)}
               onMouseUp={(e) => handleMouseUp(e.button, i, j)}
+              style={{ height: imageSize, width: imageSize }}
             >
               <Mine key={`cell-${i}-${j}`} mine={el} />
             </div>

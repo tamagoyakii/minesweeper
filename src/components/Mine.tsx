@@ -6,7 +6,6 @@ type MineProps = {
 
 export default function Mine({ mine }: MineProps) {
   const { element, isRevealed, flagType } = mine;
-  const imageSize = 30;
 
   const imageURL = () => {
     if (!isRevealed) return flagType;
@@ -19,8 +18,8 @@ export default function Mine({ mine }: MineProps) {
   return (
     <img
       src={`https://freeminesweeper.org/images/${imageURL()}.gif`}
-      width={imageSize}
-      height={imageSize}
+      width='100%'
+      height='100%'
       alt=''
     />
   );
