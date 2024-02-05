@@ -31,12 +31,10 @@ export default function Appbar() {
           handleCustomModalOpen={handleCustomModalOpen}
         />
       )}
-      {openCustomModal && (
-        <CustomModal
-          openCustomModal={openCustomModal}
-          handleCustomModalClose={handleCustomModalClose}
-        />
-      )}
+      <CustomModal
+        openCustomModal={openCustomModal}
+        handleCustomModalClose={handleCustomModalClose}
+      />
     </Box>
   );
 }
