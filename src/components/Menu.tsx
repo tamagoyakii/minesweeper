@@ -11,11 +11,13 @@ import { Difficulty } from 'src/types/gameTypes';
 type MenuProps = {
   handleMenuClose: () => void;
   handleCustomModalOpen: () => void;
+  handleRecordModalOpen: () => void;
 };
 
 export default function Menu({
   handleMenuClose,
   handleCustomModalOpen,
+  handleRecordModalOpen,
 }: MenuProps) {
   const dispatch = useDispatch();
   const { currentDifficulty } = useSelector(
@@ -67,6 +69,8 @@ export default function Menu({
           onClick={() => handleDifficultyChange(difficulty)}
         />
       ))}
+      <MenuDivider />
+      <MenuButton label='Personal Best' onClick={handleRecordModalOpen} />
       <MenuDivider />
       <MenuButton label='Exit' onClick={handleMenuClose} />
     </Box>

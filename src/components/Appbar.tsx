@@ -4,10 +4,12 @@ import { Box } from '@mui/material';
 
 import CustomModal from 'src/components/CustomModal';
 import Menu from 'src/components/Menu';
+import RecordModal from 'src/components/RecordModal';
 
 export default function Appbar() {
   const [openMenu, setOpenMenu] = useState(false);
   const [openCustomModal, setOpenCustomModal] = useState(false);
+  const [openRecordModal, setOpenRecordModal] = useState(false);
 
   const handleMenuClose = () => {
     setOpenMenu(false);
@@ -18,8 +20,9 @@ export default function Appbar() {
     setOpenCustomModal(true);
   };
 
-  const handleCustomModalClose = () => {
-    setOpenCustomModal(false);
+  const handleRecordModalOpen = () => {
+    handleMenuClose();
+    setOpenRecordModal(true);
   };
 
   return (
@@ -29,11 +32,16 @@ export default function Appbar() {
         <Menu
           handleMenuClose={handleMenuClose}
           handleCustomModalOpen={handleCustomModalOpen}
+          handleRecordModalOpen={handleRecordModalOpen}
         />
       )}
       <CustomModal
         openCustomModal={openCustomModal}
-        handleCustomModalClose={handleCustomModalClose}
+        handleCustomModalClose={() => setOpenCustomModal(false)}
+      />
+      <RecordModal
+        openRecordModal={openRecordModal}
+        handleRecordMdalClose={() => setOpenRecordModal(false)}
       />
     </Box>
   );
